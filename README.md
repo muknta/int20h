@@ -4,7 +4,7 @@
 Require python 3.7
 
 Install into virtual enviroment requirements:
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
 <h2>Run</h2>
-python run.py
+```python run.py```
