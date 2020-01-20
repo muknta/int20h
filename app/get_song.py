@@ -1,13 +1,13 @@
 import requests
 import json
-from api_tokens import token
+from config import API_REC_TOKEN
 
 
 def get_url_song_by_lyrics(lyric):
     data = {
         'url': lyric,
         'return': 'timecode,apple_music,deezer,spotify',
-        'api_token': token
+        'api_token': API_REC_TOKEN
     }
 
     result = requests.post('https://api.audd.io/', data=data)
@@ -19,7 +19,7 @@ def get_url_song_by_voice(voice):
     data = {
         'url': voice,
         'method': 'recognizeWithOffset',
-        'api_token': token
+        'api_token': API_REC_TOKEN
     }
 
     result = requests.post('https://api.audd.io/', data=data)
@@ -31,7 +31,7 @@ def get_url_song_by_text(text):
     data = {
         'q': text,
         'method': 'findLyrics',
-        'api_token': token
+        'api_token': API_REC_TOKEN
     }
 
     result = requests.post('https://api.audd.io/', data=data)
