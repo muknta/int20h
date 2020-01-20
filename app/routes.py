@@ -3,6 +3,19 @@ from flask import render_template, jsonify, request
 from config import API
 from .route_handlers import *
 
+@app.route('/send')
+def sent_song():
+    return render_template("upload_file.html")
+
+@app.route('/getsong', methods=['GET', 'POST'])
+def get_part_song(request):
+    print("Heloo!!!!!!!!!!---------------------")
+    if request.method == 'POST':
+        data = request.form['myfile']
+        return render_template('init_page.html')
+    
+    return render_template('init_page.html')
+
 
 @app.route('/')
 @app.route('/int20h')
