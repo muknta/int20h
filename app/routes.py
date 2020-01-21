@@ -8,33 +8,57 @@ from flask import flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
 
-UPLOAD_FOLDER = '/home/dmytro/files'
-ALLOWED_EXTENSIONS = {'mp3', 'ogg'}
+def get_path():
+    os.chdir("files")
+    path = os.getcwd()
+    os.chdir("../")
+    return path
+
+print(os.getcwd())
+UPLOAD_FOLDER = get_path()
+
+app.config['ALLOWED_EXTENSIONS'] = ['MP3', 'OGG']
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    if not "." in filename:
+        return False
+    
+    ext = filename.rsplit(".", 1)[1]
 
-@app.route('/upload', methods=['GET', 'POST'])
+    if ext.upper() in app.config["ALLOWED_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
+
+@app.route('/upload-song', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
+        if request.files["track"]:
+            track = request.files["track"]
+            print(track)
+
+            if track.filename == "":
+                print("Image must have a filename")
+                return redirect(request.url)
+            
+            if not allowed_file(track.filename):
+                print("That file extension is not allowed")
+                return redirect(request.url)
+
+            else:
+                filename = secure_filename(track.filename)
+
+                track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            
+            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            print("File saved")
+
             return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
-    return render_template("init_page.html", text="SUCCESSFULL")
+
+    return render_template("init_page.html")
 
 
 @app.route('/')
