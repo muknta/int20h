@@ -5,6 +5,44 @@
     <title>Int20h</title>
 </head>
 <body>
-<h1>Powered by Microchellicks Team</h1>
+	<form id="uploading" action="">
+		<input style="display:block" id="upload" type="button" value="upload the song">
+		<input style="display:none" id="check-upload" type="button" value="check out">
+	</form>
+	<form id="texting" action="">
+		<input style="display:block" id="text-s" type="text" value="text">
+		<input style="display:none" id="check-text-s" type="button" value="check out">
+	</form>
+	<form id="singing" action="">
+		<input style="display:block" id="sing" type="button" value="sing the song">
+		<input style="display:none" id="check-sing" type="button" value="check out">
+	</form>
+
+	<script>
+		sing = document.getElementById("sing");
+		sing.addEventListener("click", function() {dispBlockAndNone("check-sing", "sing")}, false);
+		checkSing = document.getElementById("check-sing");
+		checkSing.addEventListener("click", function() {dispBlockAndNone("sing", "check-sing")}, false);
+
+		textS = document.getElementById("text-s");
+		textS.addEventListener("input", function() {
+			if (textS.value.length >= 1) {
+				document.getElementById("check-text-s").style.display = "block";
+			} else {
+				document.getElementById("check-text-s").style.display = "none";
+			}}, false);
+
+		upload = document.getElementById("upload");
+		upload.addEventListener("click", function() {dispBlockAndNone("check-upload", "upload")}, false);
+		checkUpl = document.getElementById("check-upload");
+		checkUpl.addEventListener("click", function() {dispBlockAndNone("upload", "check-upload")}, false);
+
+		function dispBlockAndNone(dBlock, dNone) {
+			console.log("aaaaaaaaaaaa");
+			document.getElementById(dBlock).style.display = "block";
+			document.getElementById(dNone).style.display = "none";
+		};
+
+	</script>
 </body>
 </html>
