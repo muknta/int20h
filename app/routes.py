@@ -8,19 +8,6 @@ from flask import flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
 
-def get_path():
-    os.chdir("files")
-    path = os.getcwd()
-    os.chdir("../")
-    return path
-
-print(os.getcwd())
-UPLOAD_FOLDER = get_path()
-
-app.config['ALLOWED_EXTENSIONS'] = ['MP3', 'OGG']
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 def allowed_file(filename):
     if not "." in filename:
         return False
