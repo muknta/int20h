@@ -57,7 +57,6 @@ def init():
 @app.route(f'{API}/song/recognize', methods=['POST'])
 def recognize_song():
     data = request.get_json()
-    print(data)
     recognition_type = data.get('type')
     if recognition_type is not None:
         if recognition_type == 'text':
