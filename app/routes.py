@@ -41,13 +41,9 @@ def upload_file():
 
                 track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
-<<<<<<< HEAD
-            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-=======
             # TODO : make request to API then delete a file
 
             # os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
->>>>>>> 50fe40e301df02067f4609c31f6bd7118378b776
             print("File saved")
 
             return redirect(request.url)
