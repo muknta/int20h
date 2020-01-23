@@ -6,6 +6,7 @@ from .route_handlers import *
 import os
 from flask import flash, redirect, url_for
 from werkzeug.utils import secure_filename
+from .get_song import get_url_song_by_lyrics
 
 
 def allowed_file(filename):
@@ -39,7 +40,7 @@ def upload_file():
                 filename = secure_filename(track.filename)
 
                 track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            
+        
             os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             print("File saved")
 
