@@ -16,8 +16,25 @@ def recognize_song_by_text(request):
 
 
 def recognize_song_by_voice(request):
-    return 'by_voice', 200
+    voice = request.get('data')
+    if voice is not None:
+        data = {
+            'url': voice,
+            'api_token': API_REC_TOKEN
+        }
+        return requests.post("https://api.audd.io/recognizeWithOffset/", data=data).json(), 200
+    else:
+        return jsonify(msg='Invalid data', result=False), 400
 
 
 def recognize_song_by_sound(request):
-    return 'by_sound', 200
+    lyrics = request.get('data')
+    if lyrics is not None:
+        data = {
+                'url': lyrics,
+                'return': 'timecode,apple_music,deezer,spotify',
+                'api_token': API_REC_TOKEN
+        }
+        return requests.post('https://api.audd.io/', data=data).json(), 200
+    else:
+        return jsonify(msg='Invalid data', result=False), 400
