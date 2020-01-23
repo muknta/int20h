@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, jsonify, request
+from flask import render_template, request, send_from_directory
 from config import API
 from .route_handlers import *
 
@@ -20,6 +20,7 @@ def allowed_file(filename):
         return False
 
 
+# Todo: move functionality to recognize_song_by_sound(recognize_song_by_voice), Remove method.
 @app.route('/upload-song', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -39,13 +40,21 @@ def upload_file():
                 filename = secure_filename(track.filename)
 
                 track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            
-            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+            # TODO : make request to API then delete a file
+
+            # os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             print("File saved")
 
             return redirect(request.url)
 
     return render_template("init_page.html")
+
+
+@app.route('/song/download')
+def download_song():
+    # Doesn't need a check of existing.
+    return send_from_directory(directory=app.config['UPLOAD_FOLDER'], filename=request.args.get('song'))
 
 
 @app.route('/')
