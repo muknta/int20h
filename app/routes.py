@@ -20,37 +20,6 @@ def allowed_file(filename):
         return False
 
 
-# Todo: move functionality to recognize_song_by_sound(recognize_song_by_voice), Remove method.
-@app.route('/upload-song', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        if request.files["track"]:
-            track = request.files["track"]
-            print(track)
-
-            if track.filename == "":
-                print("Image must have a filename")
-                return redirect(request.url)
-            
-            if not allowed_file(track.filename):
-                print("That file extension is not allowed")
-                return redirect(request.url)
-
-            else:
-                filename = secure_filename(track.filename)
-
-                track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-
-            # TODO : make request to API then delete a file
-
-            # os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            print("File saved")
-
-            return redirect(request.url)
-
-    return render_template("init_page.html")
-
-
 @app.route('/song/download')
 def download_song():
     # Doesn't need a check of existing.
@@ -63,15 +32,50 @@ def init():
     return render_template('init_page.html')
 
 
-@app.route(f'{API}/song/recognize', methods=['POST'])
-def recognize_song():
+@app.route('/song/recognize_by_text', methods=['POST'])
+def recognize_song_by_text():
     data = request.get_json()
-    recognition_type = data.get('type')
-    if recognition_type is not None:
-        if recognition_type == 'text':
-            return recognize_song_by_text(data)
-        elif recognition_type == 'voice':
-            return recognize_song_by_voice(data)
-        elif recognition_type == 'sound':
-            return recognize_song_by_sound(data)
+    if request.files.get("text") is not None:
+        return recognize_song_by_text_handler(data)
     return jsonify(msg='Invalid data', result=False), 400
+
+
+@app.route('/song/recognize_by_voice', methods=['POST'])
+def recognize_song_by_voice():
+    if request.files.get("voice"):
+        voice = request.files["voice"]
+        if voice.filename == "":
+            print("Image must have a filename")
+            return jsonify(msg="Image must have a filename", result=False), 200
+
+        if not allowed_file(voice.filename):
+            return jsonify(msg="Invalid file format", result=False), 200
+
+        else:
+            filename = secure_filename(voice.filename)
+            voice.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            result = recognize_song_by_voice_handler(filename)
+            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            return result
+    return jsonify(msg='Invalid request'), 400
+
+
+@app.route('/song/recognize__by_track', methods=['POST'])
+def recognize_song_by_track():
+    if request.files.get("track"):
+        track = request.files["track"]
+        print(track)
+
+        if track.filename == "":
+            print("Image must have a filename")
+            return jsonify(msg="Image must have a filename", result=False), 200
+
+        if not allowed_file(track.filename):
+            return jsonify(msg="Invalid file format", result=False), 200
+        else:
+            filename = secure_filename(track.filename)
+            track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            result = recognize_song_by_sound_handler(filename)
+            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            return result
+    return jsonify(msg='Invalid request'), 400
