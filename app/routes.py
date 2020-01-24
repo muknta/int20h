@@ -1,10 +1,8 @@
 from app import app
 from flask import render_template, request, send_from_directory
-from config import API
 from .route_handlers import *
 
 import os
-from flask import flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
 
