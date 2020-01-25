@@ -20,9 +20,9 @@
 			    <span class="input-group-text" id="inputGroupFileAddon01">Upload your audio:</span>
 			  </div>
 			  <div class="custom-file">
-			    <input type="file" class="custom-file-input" id="inputGroupFile01"
+			    <input type="file" name="track" id="track" class="custom-file-input"
 			      aria-describedby="inputGroupFileAddon01" accept="audio/*">
-			    <label class="custom-file-label" for="inputGroupFile01">file - audio - miuisic</label>
+			    <label class="custom-file-label" for="track">file - audio - miuisic</label>
 			  </div>
 			</div>
 	        <button type="submit" class="btn btn-primary getResultBtn">Check out</button>
@@ -35,20 +35,22 @@
 			<input id="record" class="btn btn-danger" type="button" value="Record a song">
 			<input id="stopRecord" class="btn btn-success" type="button" value="Stop a record">
 			<p>
-	      		<audio id=recordedAudio></audio>
+	      		<audio id="voice" name="voice"></audio>
 	      	</p>
-	      	<input id="checkRecord" class="btn btn-primary getResultBtn" type="button" value="Check out">
+	      	<button id="checkRecord" type="submit" class="btn btn-primary getResultBtn">Check out</button>
 		</form>
 		<label id="result">
-			{% if is_send %}
+			{% if is_send and title %}
 			<p><b>Title:</b> <span style="color: blue">{{ title }}</span></p>
-			<p><b>Autor:</b> <span style="color: blue">{{ autor }}</span></p>
+			<p><b>Author:</b> <span style="color: blue">{{ author }}</span></p>
 			<p><a href="{{url}}">Link to deezer</a></p>
 			<audio controls>
 				<source src="{{ result }}" type="audio/mpeg"><source>
 			</audio>
+			{% elif is_send and not title %}
+				Not found, try more.
 			{% else %}
-			here is - your result
+				Here is - Your result
 			{% endif %}
 		</label>
 	</div>

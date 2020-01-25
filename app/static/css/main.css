@@ -27,20 +27,12 @@ nav a.navbar-brand{
     text-align: center;
 
 }
-#method-box * {
-}
 #method-box *:not(:last-child) {
     margin-bottom: 2%;
 }
 
-#drop-method-menu {
-
-}
-
-
 form.song-method {
     width: auto;
-    /*text-align: center;*/
 }
 
 form#uploading {
@@ -54,7 +46,6 @@ form#texting {
     display: none;
 }
 form#texting * {
-    /*text-align: center;*/
     margin: auto;
 }
 form#texting textarea {
@@ -73,55 +64,6 @@ form#recording #checkRecord {
 .getResultBtn {
     margin-top: 15px;
 }
-
-
-/*#record {
-    background-color: red;
-    border-width: medium;
-    border-color: black;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    max-width: 50%;
-    max-height: 15%;
-    border-radius: 50%;
-    left: 100px;
-    right: 100px;
-    position: relative;
-}
-#stopRecord {
-    background-color: green;
-    border-width: medium;
-    border-color: black;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    max-width: 50%;
-    max-height: 15%;
-    border-radius: 50%;
-    left: 100px;
-    right: 100px;
-    position: relative;
-}
-h2 {
-    left: 100px;
-    position: relative;
-}
-#recordedAudio {
-    left: 100px;
-    right: 100px;
-    position: relative;
-}*/
 
 label#result {
     display: block;

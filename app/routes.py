@@ -43,38 +43,45 @@ def game():
 def recognize_song_by_text():
     data = request.form["lyric"]
     if data is not None:
-        track = recognize_song_by_text_handler(data)[0]["result"][0]["full_title"].replace("\xa0", " ")
+        dry_data = recognize_song_by_text_handler(data)
+        if dry_data[0] == 'Not found':
+            return render_template('akinator.html', is_send=True)
+        
+        track = dry_data[0]["result"][0]["full_title"].replace("\xa0", " ")
         result = {"track": track}
         client = deezer.Client()
-        url_song = client.advanced_search(result)[0].asdict()["preview"]
-        title = client.advanced_search(result)[0].asdict()["title"]
-        artist = client.advanced_search(result)[0].asdict()["artist"]["name"]
-        link = client.advanced_search(result)[0].asdict()["link"]
-        return render_template('akinator.html', is_send=True, result=url_song, title=title, autor=artist, url=link)
+        advanced_client = client.advanced_search(result)
+        if advanced_client:
+            url_song = advanced_client[0].asdict()["preview"]
+            title = advanced_client[0].asdict()["title"]
+            artist = advanced_client[0].asdict()["artist"]["name"]
+            link = advanced_client[0].asdict()["link"]
+            return render_template('akinator.html', is_send=True, result=url_song, title=title, author=artist, url=link)
+        return render_template('akinator.html', is_send=True)
     return jsonify(msg='Invalid data', result=False), 400
 
 
-@app.route('/song/recognize_by_voice', methods=['POST'])
+@app.route('/song/recognize_by_voice', methods=['GET', 'POST'])
 def recognize_song_by_voice():
-    if request.files.get("voice"):
-        voice = request.files["voice"]
-        if voice.filename == "":
-            print("Image must have a filename")
-            return jsonify(msg="Image must have a filename", result=False), 200
+    # if request.files.get("voice"):
+    # print('request', request.files)
+    voice = request.files["voice"]
+    if voice.filename == "":
+        print("File must have a filename")
+        return jsonify(msg="File must have a filename", result=False), 200
 
-        if not allowed_file(voice.filename):
-            return jsonify(msg="Invalid file format", result=False), 200
+    if not allowed_file(voice.filename):
+        return jsonify(msg="Invalid file format", result=False), 200
+    else:
+        filename = secure_filename(voice.filename)
+        voice.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        result = recognize_song_by_voice_handler(filename)
+        os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        return result
+    # return jsonify(msg='Invalid request'), 400
 
-        else:
-            filename = secure_filename(voice.filename)
-            voice.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            result = recognize_song_by_voice_handler(filename)
-            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            return result
-    return jsonify(msg='Invalid request'), 400
 
-
-@app.route('/song/recognize__by_track', methods=['POST'])
+@app.route('/song/recognize_by_track', methods=['POST'])
 def recognize_song_by_track():
     if request.files.get("track"):
         track = request.files["track"]

@@ -11,12 +11,12 @@ def recognize_song_by_text_handler(text):
         }
 
         result = requests.post("https://api.audd.io/findLyrics/", data=data).json()
-        if bool(result['result']) != False:
+        if result['result']:
             return result, 200
         else:
             return "Not found", 200
     else:
-        return jsonify(msg='Invalid data', result=False), 200
+        return jsonify(msg='Invalid data', result=False), 400
 
 
 def recognize_song_by_voice_handler(voice):
@@ -27,7 +27,7 @@ def recognize_song_by_voice_handler(voice):
         }
         return requests.post("https://api.audd.io/recognizeWithOffset/", data=data).json(), 200
     else:
-        return jsonify(msg='Invalid data', result=False), 200
+        return jsonify(msg='Invalid data', result=False), 400
 
 
 def recognize_song_by_sound_handler(url):
@@ -39,4 +39,4 @@ def recognize_song_by_sound_handler(url):
         }
         return requests.post('https://api.audd.io/', data=data).json(), 200
     else:
-        return jsonify(msg='Invalid data', result=False), 200
+        return jsonify(msg='Invalid data', result=False), 400
