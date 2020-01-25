@@ -43,14 +43,14 @@ def game():
 def recognize_song_by_text():
     data = request.form["lyric"]
     if data is not None:
-        track = recognize_song_by_text_handler(data)[0]["result"][0]["full_title"]
-        print(track)
-        result = {"track": "Hello by Adele"}
-        print(result)
+        track = recognize_song_by_text_handler(data)[0]["result"][0]["full_title"].replace("\xa0", " ")
+        result = {"track": track}
         client = deezer.Client()
-        url_song = client.advanced_search(result)
-        print(url_song)
-        return render_template('akinator.html', is_send=True, result=result)
+        url_song = client.advanced_search(result)[0].asdict()["preview"]
+        title = client.advanced_search(result)[0].asdict()["title"]
+        artist = client.advanced_search(result)[0].asdict()["artist"]["name"]
+        link = client.advanced_search(result)[0].asdict()["link"]
+        return render_template('akinator.html', is_send=True, result=url_song, title=title, autor=artist, url=link)
     return jsonify(msg='Invalid data', result=False), 400
 
 
