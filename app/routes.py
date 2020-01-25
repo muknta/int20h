@@ -4,6 +4,8 @@ from .route_handlers import *
 
 import os
 from werkzeug.utils import secure_filename
+import json
+import deezer
 
 
 def allowed_file(filename):
@@ -39,9 +41,16 @@ def game():
 
 @app.route('/song/recognize_by_text', methods=['POST'])
 def recognize_song_by_text():
-    data = request.get_json()
-    if request.files.get("text") is not None:
-        return recognize_song_by_text_handler(data)
+    data = request.form["lyric"]
+    if data is not None:
+        track = recognize_song_by_text_handler(data)[0]["result"][0]["full_title"]
+        print(track)
+        result = {"track": "Hello by Adele"}
+        print(result)
+        client = deezer.Client()
+        url_song = client.advanced_search(result)
+        print(url_song)
+        return render_template('akinator.html', is_send=True, result=result)
     return jsonify(msg='Invalid data', result=False), 400
 
 

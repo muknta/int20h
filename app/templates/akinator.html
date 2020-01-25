@@ -27,9 +27,9 @@
 			</div>
 	        <button type="submit" class="btn btn-primary getResultBtn">Check out</button>
 	    </form>
-		<form id="texting" class="song-method" action="/song/recognize_by_text">
-			<textarea style="display:block" id="enterText" rows = "2" cols = "40" placeholder="Type a lyrics"></textarea>
-			<input style="display:none" id="checkText" class="btn btn-primary getResultBtn" type="button" value="Check out">
+		<form id="texting" class="song-method" method="POST" action="/song/recognize_by_text">
+			<textarea style="display:block" id="enterText" name="lyric" rows = "2" cols = "40" placeholder="Type a lyrics"></textarea>
+			<input style="display:none" id="checkText" class="btn btn-primary getResultBtn" type="submit" value="Check out">
 		</form>
 		<form id="recording" class="song-method" action="/song/recognize_by_voice">
 			<input id="record" class="btn btn-danger" type="button" value="Record a song">
@@ -39,6 +39,12 @@
 	      	</p>
 	      	<input id="checkRecord" class="btn btn-primary getResultBtn" type="button" value="Check out">
 		</form>
-		<label id="result">here is - your result</label>
+		<label id="result">
+			{% if is_send %}
+			<audio id=recordedAudio src={{result}}></audio>
+			{% else %}
+			here is - your result
+			{% endif %}
+		</label>
 	</div>
 {% endblock content%}
