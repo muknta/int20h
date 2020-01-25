@@ -9,7 +9,12 @@ def recognize_song_by_text_handler(text):
                 'q': text,
                 'api_token': API_REC_TOKEN
         }
-        return requests.post("https://api.audd.io/findLyrics/", data=data).json(), 200
+
+        result = requests.post("https://api.audd.io/findLyrics/", data=data).json()
+        if bool(result['result']) != False:
+            return result, 200
+        else:
+            return "Not found", 200
     else:
         return jsonify(msg='Invalid data', result=False), 200
 
