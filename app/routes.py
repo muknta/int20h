@@ -47,7 +47,10 @@ def recognize_song_by_text():
         result = {"track": track}
         client = deezer.Client()
         url_song = client.advanced_search(result)[0].asdict()["preview"]
-        return render_template('akinator.html', is_send=True, result=url_song)
+        title = client.advanced_search(result)[0].asdict()["title"]
+        artist = client.advanced_search(result)[0].asdict()["artist"]["name"]
+        link = client.advanced_search(result)[0].asdict()["link"]
+        return render_template('akinator.html', is_send=True, result=url_song, title=title, autor=artist, url=link)
     return jsonify(msg='Invalid data', result=False), 400
 
 
