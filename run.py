@@ -1,17 +1,12 @@
 from gevent import monkey
+import os
 monkey.patch_all()
+from app import app as application
 
-from gevent.pywsgi import WSGIServer
-from app import app
+application.debug = True
 
-app.debug = True
-
-
-def main():
-    http = WSGIServer(('127.0.0.1', 5000), app)
-    http.serve_forever()
-    #app.run(host='0.0.0.0')
-
+application = application
 
 if __name__ == '__main__':
-    main()
+    port = int(os.environ.get('PORT', 5000))
+    application.run(host='0.0.0.0', port=port)
