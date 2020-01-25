@@ -5,9 +5,16 @@ from .route_handlers import *
 
 
 @app.route('/')
-@app.route('/int20h')
-def init():
-    return render_template('init_page.html')
+def index():
+    return render_template('index.html')
+
+@app.route('/akinator')
+def akinator():
+    return render_template('akinator.html')
+
+@app.route('/game')
+def game():
+    return render_template('game.html')
 
 
 @app.route(f'{API}/song/recognize', methods=['POST'])
