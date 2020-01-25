@@ -30,10 +30,10 @@ def recognize_song_by_voice_handler(voice):
         return jsonify(msg='Invalid data', result=False), 200
 
 
-def recognize_song_by_sound_handler(url):
-    if url is not None:
+def recognize_song_by_sound_handler(filename):
+    if filename is not None:
         data = {
-                'url': url,  # Todo: url = heroku..../song/download&filename
+                'url': f'int20h.herokuapp.com/song/download&{filename}',
                 'return': 'timecode,apple_music,deezer,spotify',
                 'api_token': API_REC_TOKEN
         }
