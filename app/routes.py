@@ -102,6 +102,7 @@ def recognize_song_by_track():
             filename = secure_filename(track.filename)
             track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             result = recognize_song_by_sound_handler(filename)
+            print('recognize by track api:', result)
             os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
             if result[0]["status"] == "error":
