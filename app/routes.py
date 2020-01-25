@@ -44,13 +44,9 @@ def recognize_song_by_text():
     data = request.form["lyric"]
     if data is not None:
         track = recognize_song_by_text_handler(data)[0]["result"][0]["full_title"].replace("\xa0", " ")
-        # artist = recognize_song_by_text_handler(data)[0]["result"][0]["artist"]
-        print(track)
-        result = {"track": track} #, "artist": artist}
-        print(result)
+        result = {"track": track}
         client = deezer.Client()
-        url_song = client.advanced_search(result)[0]
-        print(url_song.asdict()["preview"])
+        url_song = client.advanced_search(result)[0].asdict()["preview"]
         return render_template('akinator.html', is_send=True, result=url_song)
     return jsonify(msg='Invalid data', result=False), 400
 
