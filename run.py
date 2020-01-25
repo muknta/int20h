@@ -1,7 +1,7 @@
 from gevent import monkey
 import os
 monkey.patch_all()
-from app import as application
+from app import app as application
 
 application.debug = True
 
