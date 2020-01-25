@@ -20,7 +20,7 @@
 			    <span class="input-group-text" id="inputGroupFileAddon01">Upload your audio:</span>
 			  </div>
 			  <div class="custom-file">
-			    <input type="file" class="custom-file-input" id="inputGroupFile01"
+			    <input type="file" class="custom-file-input" name="track" id="inputGroupFile01"
 			      aria-describedby="inputGroupFileAddon01" accept="audio/*">
 			    <label class="custom-file-label" for="inputGroupFile01">file - audio - miuisic</label>
 			  </div>
@@ -41,14 +41,18 @@
 		</form>
 		<label id="result">
 			{% if is_send %}
-			<p><b>Title:</b> <span style="color: blue">{{ title }}</span></p>
-			<p><b>Autor:</b> <span style="color: blue">{{ autor }}</span></p>
-			<p><a href="{{url}}">Link to deezer</a></p>
-			<audio controls>
-				<source src="{{ result }}" type="audio/mpeg"><source>
-			</audio>
+				{% if is_found %}
+					<p><b>Title:</b> <span style="color: blue">{{ title }}</span></p>
+					<p><b>Autor:</b> <span style="color: blue">{{ autor }}</span></p>
+					<p><a href="{{url}}">Link to deezer</a></p>
+					<audio controls>
+						<source src="{{ result }}" type="audio/mpeg"><source>
+				</audio>
+				{% else %}
+				<p>Not found</p>
+				{% endif %}
 			{% else %}
-			here is - your result
+				here is - your result
 			{% endif %}
 		</label>
 	</div>
