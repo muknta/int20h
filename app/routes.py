@@ -81,8 +81,6 @@ def recognize_song_by_voice():
 
 @app.route('/song/recognize_by_track', methods=['POST'])
 def recognize_song_by_track():
-    print(request.form)
-    print(request.files)
     if request.files.get("track"):
         track = request.files["track"]
         print(track)
@@ -98,7 +96,7 @@ def recognize_song_by_track():
             track.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             result = recognize_song_by_sound_handler(filename)
             os.remove(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            
+
             if result[0]["status"] == "error":
                 return render_template('akinator.html', is_send=True, is_found=False)
             else:

@@ -31,13 +31,13 @@
 			<textarea style="display:block" id="enterText" name="lyric" rows = "2" cols = "40" placeholder="Type a lyrics"></textarea>
 			<input style="display:none" id="checkText" class="btn btn-primary getResultBtn" type="submit" value="Check out">
 		</form>
-		<form id="recording" class="song-method" action="/song/recognize_by_voice">
+		<form id="recording" class="song-method" method="POST" action="/song/recognize_by_voice">
 			<input id="record" class="btn btn-danger" type="button" value="Record a song">
 			<input id="stopRecord" class="btn btn-success" type="button" value="Stop a record">
 			<p>
 	      		<audio id=recordedAudio></audio>
 	      	</p>
-	      	<input id="checkRecord" class="btn btn-primary getResultBtn" type="button" value="Check out">
+	      	<input id="checkRecord" class="btn btn-primary getResultBtn" type="submit" value="Check out">
 		</form>
 		<label id="result">
 			{% if is_send %}
