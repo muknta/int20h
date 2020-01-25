@@ -19,10 +19,10 @@ def recognize_song_by_text_handler(text):
         return jsonify(msg='Invalid data', result=False), 200
 
 
-def recognize_song_by_voice_handler(voice):
-    if voice is not None:
+def recognize_song_by_voice_handler(filename):
+    if filename is not None:
         data = {
-            'url': voice,
+            'url': f'https://int20h.herokuapp.com/song/download?song={filename}',
             'api_token': API_REC_TOKEN
         }
         return requests.post("https://api.audd.io/recognizeWithOffset/", data=data).json(), 200
@@ -33,7 +33,7 @@ def recognize_song_by_voice_handler(voice):
 def recognize_song_by_sound_handler(filename):
     if filename is not None:
         data = {
-                'url': f'https://int20h.herokuapp.com/song/download&{filename}',
+                'url': f'https://int20h.herokuapp.com/song/download?song={filename}',
                 'return': 'timecode,apple_music,deezer,spotify',
                 'api_token': API_REC_TOKEN
         }

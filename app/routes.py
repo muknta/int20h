@@ -4,7 +4,6 @@ from .route_handlers import *
 
 import os
 from werkzeug.utils import secure_filename
-import json
 import deezer
 
 
