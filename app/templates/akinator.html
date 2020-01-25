@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Akinator{% endblock %}
+    
+{% block content %}
+	<div id="method-box">
+		<div id="drop-method-menu" class="dropdown">
+			<button id="methodButton" class="btn btn-secondary dropdown-toggle btn-warning btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Uploading
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			    <button id="menu-btn-upload" class="dropdown-item">Uploading</button>
+			    <button id="menu-btn-text" class="dropdown-item">Texting</button>
+			    <button id="menu-btn-record" class="dropdown-item">Recording</button>
+			</div>
+		</div>
+
+		<form id="uploading" class="song-method" action="/song/recognize_by_track" method="POST" enctype="multipart/form-data">
+	        <div class="input-group">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="inputGroupFileAddon01">Upload your audio:</span>
+			  </div>
+			  <div class="custom-file">
+			    <input type="file" class="custom-file-input" id="inputGroupFile01"
+			      aria-describedby="inputGroupFileAddon01" accept="audio/*">
+			    <label class="custom-file-label" for="inputGroupFile01">file - audio - miuisic</label>
+			  </div>
+			</div>
+	        <button type="submit" class="btn btn-primary getResultBtn">Check out</button>
+	    </form>
+		<form id="texting" class="song-method" action="/song/recognize_by_text">
+			<textarea style="display:block" id="enterText" rows = "2" cols = "40" placeholder="Type a lyrics"></textarea>
+			<input style="display:none" id="checkText" class="btn btn-primary getResultBtn" type="button" value="Check out">
+		</form>
+		<form id="recording" class="song-method" action="/song/recognize_by_voice">
+			<input id="record" class="btn btn-danger" type="button" value="Record a song">
+			<input id="stopRecord" class="btn btn-success" type="button" value="Stop a record">
+			<p>
+	      		<audio id=recordedAudio></audio>
+	      	</p>
+	      	<input id="checkRecord" class="btn btn-primary getResultBtn" type="button" value="Check out">
+		</form>
+		<label id="result">here is - your result</label>
+	</div>
+{% endblock content%}
